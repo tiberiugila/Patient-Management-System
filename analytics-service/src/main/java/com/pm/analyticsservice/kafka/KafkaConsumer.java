@@ -1,6 +1,5 @@
 package com.pm.analyticsservice.kafka;
 
-
 import com.google.protobuf.InvalidProtocolBufferException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,21 +10,21 @@ import patient.events.PatientEvent;
 @Service
 public class KafkaConsumer {
 
-    private static final Logger log = LoggerFactory.getLogger(KafkaConsumer.class);
+    private static final Logger log = LoggerFactory.getLogger(
+            KafkaConsumer.class);
 
-    @KafkaListener(topics = "patient", groupId = "analytics-service")
-    public void consumeEvent(byte[] event){
+    @KafkaListener(topics="patient", groupId = "analytics-service")
+    public void consumeEvent(byte[] event) {
         try {
             PatientEvent patientEvent = PatientEvent.parseFrom(event);
-            // perform any business logic related to the analytics service
+            // ... perform any business related to analytics here
 
-            log.info("Received Patient Event: [PatientId = {}, PatientName = {}, PatientEmail = {}]",
+            log.info("Received Patient Event: [PatientId={},PatientName={},PatientEmail={}]",
                     patientEvent.getPatientId(),
                     patientEvent.getName(),
                     patientEvent.getEmail());
         } catch (InvalidProtocolBufferException e) {
-            log.error("Error deserializing event: {}", e.getMessage());
+            log.error("Error deserializing event {}", e.getMessage());
         }
     }
-
 }
